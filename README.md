@@ -48,6 +48,41 @@ class RubyClassName
 end
 ```
 
+* Write expressive method names (Rubyist should be able to get a sense of what methods do without extensive documentation)
+
+```ruby
+# Bad
+def number
+end
+
+# Good
+def get_squared_number
+end
+```
+
+* Use `?` at the end of method if it returns truthy or falsy value
+
+```ruby
+def is_even?(num)
+  num % 2 == 0
+end
+```
+
+* Ruby method return whatever was evaluated last, so for simple method, don't use `return` keyword.
+
+```ruby
+# Bad
+def double_the_num(num)
+  product = num**2
+  return product
+end
+
+# Good
+def double_the_num(num)
+  num**2
+end
+```
+
 ## Basics
 
 ### Everything is an object
@@ -93,6 +128,25 @@ Except the following cases:
 `@variable  = "instance variable"`: Instance variable
 
 `VARIABLE   = "constants"`        : Constant variable
+
+### Standard Output (STDOUT)
+
+* `puts` adds a carriage return at the end
+* `print` does not add a carriage return at the end
+* `#{}` means evaluate what's inside `{}`.
+
+```ruby
+1.9.3-p194 :051 > print "Hello World"
+Hello World => nil 
+1.9.3-p194 :052 > puts "Hellow World"
+Hellow World
+ => nil 
+1.9.3-p194 :053 > a = "Hellow World"
+ => "Hellow World" 
+1.9.3-p194 :054 > puts "#{a} is what I say"
+Hellow World is what I say
+ => nil 
+```
 
 ### Basic Data Structures
 
@@ -188,14 +242,18 @@ But if you only care about one condition use single line.
 
 #### Unless
 
-Don't use unless if there is else condition. Use if instead.
+Don't use unless if there is no else condition. Use if instead. It's more readable that way.
 
 `do_something_else unless condition_b`
 
 ### Iteration
 
+Enumerable, 1.9.3: http://ruby-doc.org/core-1.9.3/Enumerable.html
+
+Enumerable, 2.1.1: http://ruby-doc.org/core-2.1.1/Enumerable.html
+
 In Ruby, most iterations happen over a collection of elements and you pass
-**block** that will be iterated on each element.
+**block** that will be iterated on each element. Enumerable mixin or module provides a lot more functionalities than standard Array/Hash methods. Enumerable methods work both on arrays and hashes. 
 
 Use `do/end` if multiple lines are required. Use `{}` for single line.
 
@@ -203,9 +261,63 @@ Use `do/end` if multiple lines are required. Use `{}` for single line.
 numbers = [1, 2, 3]
 
 numbers.each do |num|
-  do_something(num)
+  puts num**2
   puts num
 end
 
-numbers.each {|num| puts num}
+numbers.each { |num| puts num }
+
+hash = {:a => "A", :b => "B"}
+
+hash.each { |key, value| puts "#{hash[key]} = #{value}" }
+```
+
+### Working with HTTP request/response
+
+Net::HTTP, 1.9.3: http://www.ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net/HTTP.html
+
+JSON, 1.9.3     : http://ruby-doc.org/stdlib-1.9.3/libdoc/json/rdoc/JSON.html
+
+Net::HTTP, 2.1.1: http://www.ruby-doc.org/stdlib-2.1.1/libdoc/net/http/rdoc/Net/HTTP.html
+
+JSON, 2.1.1     : http://ruby-doc.org/stdlib-2.1.1/libdoc/json/rdoc/JSON.html
+
+Net::HTTP, URI, and JSON are part of stanard libraries in Ruby. To use them, you need to `require` them first.
+
+Examples can be found here: http://www.rubyinside.com/nethttp-cheat-sheet-2940.html
+
+**GET**
+
+```ruby
+1.9.3-p194 :055 > require 'json'
+ => true 
+1.9.3-p194 :056 > require 'net/http'
+ => true 
+1.9.3-p194 :057 > require 'uri'
+ => false 
+1.9.3-p194 :065 > uri = URI.parse("http://www.google.com")
+ => #<URI::HTTP:0x007fb80446efb0 URL:http://www.google.com> 
+1.9.3-p194 :066 > response = Net::HTTP.get_response(uri)
+ => #<Net::HTTPOK 200 OK readbody=true> 
+1.9.3-p194 :067 > response.code
+ => "200" 
+1.9.3-p194 :068 > response.body
+ # Buch of HTML codes
+```
+
+**POST**
+
+Using form data is easy.
+
+`response = Net::HTTP.post_form(uri, {"q" => "My query", "per_page" => "50"})`
+
+Using JSON data in body requires more typing
+
+```ruby
+uri = URI.parse('https://myapp.com/api/v1/resource')
+req = Net::HTTP::Post.new(uri, initheader = {'Content-Type' =>'application/json'})
+req.body = {param1: 'some value', param2: 'some other value'}.to_json
+response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(req)
+end
 ```
