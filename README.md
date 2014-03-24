@@ -83,6 +83,18 @@ def double_the_num(num)
 end
 ```
 
+* Use `||=` to check for nil value and initialize a variable
+
+```ruby
+# Bad
+a = "something" if a.nil?
+
+# Good
+a ||= "something"
+```
+
+* Don't use `===` for conditions or to check types. `===` is used for case/switch statement. 
+
 ## Basics
 
 ### Everything is an object
@@ -133,7 +145,7 @@ Except the following cases:
 
 * `puts` adds a carriage return at the end
 * `print` does not add a carriage return at the end
-* `#{}` means evaluate what's inside `{}`.
+* `"#{}"` means evaluate what's inside `{}`. It only works with double-quotes. It doesn't work with single-quotes.
 
 ```ruby
 1.9.3-p194 :051 > print "Hello World"
@@ -146,6 +158,9 @@ Hello World
 1.9.3-p194 :054 > puts "#{a} is what I say"
 Hello World is what I say
  => nil 
+1.9.3-p385 :027 > puts '#{a} is not what I say'
+#{a} is not what I say
+ => nil
 ```
 
 ### Basic Data Structures
@@ -222,6 +237,37 @@ Mutable and can contain different types of data.
  => "a"
 ```
 
+#### Use symbol for hash keys to save memory space.
+
+Creating same string creates new object each time, but symbol doesn't. 
+
+```ruby
+1.9.3-p385 :014 > a = "blah"
+ => "blah"
+1.9.3-p385 :015 > a.object_id
+ => 70297014082880
+1.9.3-p385 :016 > b = "blah"
+ => "blah"
+1.9.3-p385 :017 > b.object_id
+ => 70297013950380
+1.9.3-p385 :018 > a.object_id == b.object_id
+ => false
+1.9.3-p385 :019 > a == b
+ => true
+1.9.3-p385 :020 > c = :blah
+ => :blah
+1.9.3-p385 :021 > c.object_id
+ => 667848
+1.9.3-p385 :022 > d = :blah
+ => :blah
+1.9.3-p385 :023 > d.object_id
+ => 667848
+1.9.3-p385 :024 > c == d
+ => true
+1.9.3-p385 :025 > c.object_id == d.object_id
+ => true
+```
+
 ### Basic Control Structure
 
 #### If, elsif, else
@@ -242,9 +288,19 @@ But if you only care about one condition use single line.
 
 #### Unless
 
-Don't use unless if there is no else condition. Use if instead. It's more readable that way.
+Don't use unless with else.
 
-`do_something_else unless condition_b`
+```ruby
+# Bad
+unless condition_a
+  do_something
+else
+  do_something_else
+end
+
+# Good
+do_something_else unless condition_b
+```
 
 ### Iteration
 
@@ -327,6 +383,13 @@ end
 ### Executable Ruby Scripts
 
 Just add absolute path to the ruby binary at the top of ruby script and make the script executable. 
+
+```
+yangtheman:~/codes/ruby/practices$ whereis ruby
+/usr/bin/ruby
+yangtheman:~/codes/ruby/practices$ ruby -v
+ruby 1.9.3p385 (2013-02-06 revision 39114) [x86_64-darwin12.2.1]
+```
 
 ```ruby
 #!/usr/bin/ruby
