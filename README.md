@@ -138,13 +138,13 @@ Except the following cases:
 ```ruby
 1.9.3-p194 :051 > print "Hello World"
 Hello World => nil 
-1.9.3-p194 :052 > puts "Hellow World"
-Hellow World
+1.9.3-p194 :052 > puts "Hello World"
+Hello World
  => nil 
-1.9.3-p194 :053 > a = "Hellow World"
- => "Hellow World" 
+1.9.3-p194 :053 > a = "Hello World"
+ => "Hello World" 
 1.9.3-p194 :054 > puts "#{a} is what I say"
-Hellow World is what I say
+Hello World is what I say
  => nil 
 ```
 
@@ -303,6 +303,8 @@ Examples can be found here: http://www.rubyinside.com/nethttp-cheat-sheet-2940.h
  => "200" 
 1.9.3-p194 :068 > response.body
  # Buch of HTML codes
+1.9.3-p194 :068 > JSON.parse(response.body)
+ # JSON data converted to hash if it contains JSON data
 ```
 
 **POST**
@@ -321,3 +323,14 @@ response = Net::HTTP.start(uri.hostname, uri.port) do |http|
   http.request(req)
 end
 ```
+
+### Executable Ruby Scripts
+
+Just add absolute path to the ruby binary at the top of ruby script and make the script executable. 
+
+```ruby
+#!/usr/bin/ruby
+
+puts "Hello World"
+```
+
