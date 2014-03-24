@@ -380,9 +380,13 @@ response = Net::HTTP.start(uri.hostname, uri.port) do |http|
 end
 ```
 
+You can also use **RestClient** gem: https://github.com/rest-client/rest-client
+
+
 ### Reading from file
 
 **1.9.3**: http://ruby-doc.org/core-1.9.3/File.html
+
 **2.1.1**: http://ruby-doc.org/core-2.1.1/File.html
 
 Use abosolute path to read from file.  You can also go each line by line as well. Refer to the links above.
