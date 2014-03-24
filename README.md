@@ -388,7 +388,7 @@ end
 Use abosolute path to read from file.  You can also go each line by line as well. Refer to the links above.
 
 ```ruby
-> json = File.read("/Users/yangtheman/mu/avalanche_app/spec/fixtures/av_chassis_info_sample.json")
+> json = File.read("/pah/to/json/file.json")
 > puts json
 # output of file content
 ```
