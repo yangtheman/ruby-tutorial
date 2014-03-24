@@ -99,6 +99,7 @@ Except the following cases:
 #### Array
 
 **1.9.3**: http://www.ruby-doc.org/core-1.9.3/Array.html
+
 **2.1.1**: http://www.ruby-doc.org/core-2.1.1/Array.html
 
 Mutable and can contain different types of data.
@@ -137,6 +138,7 @@ Mutable and can contain different types of data.
 #### Hash
 
 **1.9.3**: http://www.ruby-doc.org/core-1.9.3/Hash.html
+
 **2.1.1**: http://www.ruby-doc.org/core-2.1.1/Hash.html
 
 `=>` is called **hash rocket**.
