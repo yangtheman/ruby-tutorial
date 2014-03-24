@@ -87,7 +87,7 @@ Ruby variable names do not need any keyword prefix.
 Except the following cases:
 
 `$variable  = "global variable"`  : Global variable
-`@@variable = "class variable"    : Class variable
+`@@variable = "class variable"`   : Class variable
 `@variable  = "instance variable"`: Instance variable
 `VARIABLE   = "constants"`        : Constant variable
 
