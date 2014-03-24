@@ -380,6 +380,19 @@ response = Net::HTTP.start(uri.hostname, uri.port) do |http|
 end
 ```
 
+### Reading from file
+
+**1.9.3**: http://ruby-doc.org/core-1.9.3/File.html
+**2.1.1**: http://ruby-doc.org/core-2.1.1/File.html
+
+Use abosolute path to read from file.  You can also go each line by line as well. Refer to the links above.
+
+```ruby
+> json = File.read("/Users/yangtheman/mu/avalanche_app/spec/fixtures/av_chassis_info_sample.json")
+> puts json
+# output of file content
+```
+
 ### Executable Ruby Scripts
 
 Just add absolute path to the ruby binary at the top of ruby script and make the script executable. 
