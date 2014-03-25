@@ -93,7 +93,7 @@ a = "something" if a.nil?
 a ||= "something"
 ```
 
-* Don't use `===` for conditions or to check types. `===` is used for case/switch statement. 
+* Don't use `===` for conditions or to check types. `===` is used for case/switch statement.
 
 ## Basics
 
@@ -149,15 +149,15 @@ Except the following cases:
 
 ```ruby
 1.9.3-p194 :051 > print "Hello World"
-Hello World => nil 
+Hello World => nil
 1.9.3-p194 :052 > puts "Hello World"
 Hello World
- => nil 
+ => nil
 1.9.3-p194 :053 > a = "Hello World"
- => "Hello World" 
+ => "Hello World"
 1.9.3-p194 :054 > puts "#{a} is what I say"
 Hello World is what I say
- => nil 
+ => nil
 1.9.3-p385 :027 > puts '#{a} is not what I say'
 #{a} is not what I say
  => nil
@@ -239,7 +239,7 @@ Mutable and can contain different types of data.
 
 #### Use symbol for hash keys to save memory space.
 
-Creating same string creates new object each time, but symbol doesn't. 
+Creating same string creates new object each time, but symbol doesn't.
 
 ```ruby
 1.9.3-p385 :014 > a = "blah"
@@ -309,7 +309,7 @@ Enumerable, 1.9.3: http://ruby-doc.org/core-1.9.3/Enumerable.html
 Enumerable, 2.1.1: http://ruby-doc.org/core-2.1.1/Enumerable.html
 
 In Ruby, most iterations happen over a collection of elements and you pass
-**block** that will be iterated on each element. Enumerable mixin or module provides a lot more functionalities than standard Array/Hash methods. Enumerable methods work both on arrays and hashes. 
+**block** that will be iterated on each element. Enumerable mixin or module provides a lot more functionalities than standard Array/Hash methods. Enumerable methods work both on arrays and hashes.
 
 Use `do/end` if multiple lines are required. Use `{}` for single line.
 
@@ -346,17 +346,17 @@ Examples can be found here: http://www.rubyinside.com/nethttp-cheat-sheet-2940.h
 
 ```ruby
 1.9.3-p194 :055 > require 'json'
- => true 
+ => true
 1.9.3-p194 :056 > require 'net/http'
- => true 
+ => true
 1.9.3-p194 :057 > require 'uri'
- => false 
+ => false
 1.9.3-p194 :065 > uri = URI.parse("http://www.google.com")
- => #<URI::HTTP:0x007fb80446efb0 URL:http://www.google.com> 
+ => #<URI::HTTP:0x007fb80446efb0 URL:http://www.google.com>
 1.9.3-p194 :066 > response = Net::HTTP.get_response(uri)
- => #<Net::HTTPOK 200 OK readbody=true> 
+ => #<Net::HTTPOK 200 OK readbody=true>
 1.9.3-p194 :067 > response.code
- => "200" 
+ => "200"
 1.9.3-p194 :068 > response.body
  # Buch of HTML codes
 1.9.3-p194 :068 > JSON.parse(response.body)
@@ -399,7 +399,7 @@ Use abosolute path to read from file.  You can also go each line by line as well
 
 ### Executable Ruby Scripts
 
-Just add absolute path to the ruby binary at the top of ruby script and make the script executable. 
+Just add absolute path to the ruby binary at the top of ruby script and make the script executable.
 
 ```
 yangtheman:~/codes/ruby/practices$ whereis ruby
@@ -414,3 +414,80 @@ ruby 1.9.3p385 (2013-02-06 revision 39114) [x86_64-darwin12.2.1]
 puts "Hello World"
 ```
 
+### Classes
+
+* Ruby has only single inheritance.
+* Ruby class constructor method is called `initialize`. It gets called automatically
+when an instance of a class is created.
+* Use `attr_reader` to make an attribute readable.
+* Use `attr_writer` to make an attribute writable.
+* Use `attr_accessor` to make an attribute both readable/writable.
+
+```ruby
+class SampleClass
+
+  attr_reader :length
+
+  def initialize(len = 10)
+    @length = len
+  end
+
+end
+
+sample = Sample.new
+sample.length # will return 10
+```
+
+* Subclass can be created using `<`.
+* Use `super` method to access the same method in parent class.
+
+```ruby
+class ChildClass < SampleClass
+
+  def initialize(len = 5)
+    super
+  end
+
+end
+
+child = ChildClass.new
+child.length # will return 5
+```
+
+### Modules
+
+* Module serves two purposes: **Namespacing** and **Mixin**
+* It cannot be instantiated.
+* It can be included in a class to make the methods available to an instance or a class.
+
+```ruby
+# Namespacing
+Module TopName
+  class SomeClass
+  end
+end
+
+test = TopName::SomeClass.new
+
+# Mixin
+Module MoreArrayMethods
+  def some_method
+  end
+end
+
+Class Array
+  include MoreArrayMethods
+end
+
+class Hash
+  extend MoreArrayMethods
+end
+
+array = Array.new
+array.some_method  # instance method
+
+Hash.some_method # class method
+hash = Hash.new
+hash.extend MoreArrayMethods
+hash.some_method # instance method
+```
